@@ -1,17 +1,20 @@
-let element = (
-  <div id="myId" class="myClass">
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
-);
-function ToyReact(type, attributes, ...children) {
-  let element = document.createElement(type);
-  for (let key in attributes) {
-    element.setAttribute(key, attributes[key]);
-  }
-  for (let child of children) {
-    element.appendChild(child);
-  }
-  return element
+import { ToyReact, render, Commponent } from './toy-react'
+class MyComponent extends Commponent {
+	render() {
+		return (
+			<div>
+				<h1>hello React</h1>
+        {this.children}
+			</div>
+		)
+	}
 }
+let element = (
+	<MyComponent id="myId" class="myClass" style="color:red">
+		<div>111</div>
+		<div></div>
+		<div></div>
+	</MyComponent>
+)
+
+render(element, document.body)
