@@ -1,12 +1,13 @@
 const path = require('path')
 module.exports = {
   entry: {
-    main: path.resolve(__dirname, '../src/main.js'),
+    main: path.resolve(__dirname, '../src/main.js')
   },
   mode: 'development',
   optimization: {
-    minimize: false,
+    minimize: false
   },
+  devtool: 'inline-source-map',
   module: {
     rules: [
       {
@@ -21,15 +22,14 @@ module.exports = {
                 [
                   '@babel/plugin-transform-react-jsx',
                   {
-                    pragma: 'ToyReact',
-                  },
+                    pragma: 'ToyReact'
+                  }
                 ]
-              
-              ],
-            },
-          },
-        ],
-      },
-    ],
-  },
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
 }

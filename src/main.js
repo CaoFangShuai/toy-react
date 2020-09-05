@@ -1,20 +1,24 @@
 import { ToyReact, render, Commponent } from './toy-react'
 class MyComponent extends Commponent {
-	render() {
-		return (
-			<div>
-				<h1>hello React</h1>
-        {this.children}
-			</div>
-		)
-	}
+  constructor() {
+    super()
+    this.state = {
+      a: 1,
+      b: 2
+    }
+  }
+  render() {
+    return (
+      <div>
+        <h1>MyComponent</h1>
+        <div>{this.state.a}</div>
+        <div>{this.state.b.toString()}</div>
+      </div>
+    )
+  }
 }
-let element = (
-	<MyComponent id="myId" class="myClass" style="color:red">
-		<div>111</div>
-		<div></div>
-		<div></div>
-	</MyComponent>
-)
 
+let element = (
+  <MyComponent id="myId" class="myClass" style="color:red"></MyComponent>
+)
 render(element, document.body)
