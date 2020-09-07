@@ -5,7 +5,11 @@ class ElementWrapper {
     this.root = document.createElement(type)
   }
   setAttribute(name, value) {
-    this.root.setAttribute(name, value)
+    if (name.match(/^on([\s\S]+)/)) {
+      this.root.addEventListener(RegExp.$1.replace(/^[\s\S]/,c=>c.toLowerCase()), value)
+    } else {
+      this.root.setAttribute(name, value)
+    }
   }
   appendChild(commponent) {
     let range = document.createRange()
@@ -16,16 +20,15 @@ class ElementWrapper {
     // this.root.appendChild(commponent.root)
   }
   [RANGE_TO_DOM](range) {
-    range.deleteContents()
     range.insertNode(this.root)
   }
+
 }
 class TextNodeWrapper {
   constructor(content) {
     this.root = document.createTextNode(content)
   }
   [RANGE_TO_DOM](range) {
-    range.deleteContents()
     range.insertNode(this.root)
   }
 }
@@ -34,6 +37,7 @@ export class Commponent {
     this.props = Object.create(null)
     this.children = []
     this._root = null
+    this._range = null
   }
   setAttribute(name, value) {
     this.props[name] = value
@@ -42,6 +46,7 @@ export class Commponent {
     this.children.push(commponent)
   }
   [RANGE_TO_DOM](range) {
+    this._range = range
     this.render()[RANGE_TO_DOM](range)
   }
   // 在render时候获取根节点
@@ -54,6 +59,10 @@ export class Commponent {
       this._root = this.render().root
     }
     return this._root
+  }
+  rerender() {
+    this._range.deleteContents()
+    this[RANGE_TO_DOM](this._range)
   }
 }
 export function ToyReact(type, attributes, ...children) {
